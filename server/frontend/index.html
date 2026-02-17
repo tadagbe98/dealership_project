@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Best Cars Dealership</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root { --primary: #1a3c6e; --accent: #e63946; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+    .navbar { background: var(--primary) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #ffd166 !important; }
+    .hero { background: linear-gradient(135deg, var(--primary) 60%, var(--accent) 100%); color: white; padding: 70px 0; text-align: center; }
+    .dealer-card { background: white; border-radius: 12px; box-shadow: 0 2px 15px rgba(0,0,0,0.08); padding: 20px; transition: transform 0.2s, box-shadow 0.2s; height: 100%; }
+    .dealer-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .badge-state { background: #f0f4f8; color: var(--primary); padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; }
+    .badge-id { background: var(--primary); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; }
+    .sentiment-positive { background: #d4edda; color: #155724; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; }
+    .sentiment-negative { background: #f8d7da; color: #721c24; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; }
+    .sentiment-neutral { background: #e2e3e5; color: #383d41; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; }
+    #reviews-section, #dealer-detail-section, #post-review-section { display: none; }
+    .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
+    @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    footer { background: var(--primary); color: #ccc; text-align: center; padding: 24px; margin-top: 60px; }
+    .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 0.2rem rgba(26,60,110,0.2); }
+    .modal-header { background: var(--primary); color: white; }
+    .modal-header .btn-close { filter: invert(1); }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold fs-4" href="#" onclick="showHome()">
+      <i class="fas fa-car me-2"></i>Best Cars Dealership
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link" href="/static/About.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="/static/Contact.html">Contact Us</a></li>
+        <li class="nav-item" id="nav-username" style="display:none">
+          <span class="nav-link text-warning fw-bold"><i class="fas fa-user me-1"></i><span id="display-username"></span></span>
+        </li>
+        <li class="nav-item" id="nav-login-btn">
+          <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+        </li>
+        <li class="nav-item" id="nav-register-btn">
+          <button class="btn btn-sm" style="background:#e63946;color:white" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+        </li>
+        <li class="nav-item" id="nav-logout-btn" style="display:none">
+          <button class="btn btn-outline-light btn-sm" onclick="doLogout()">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HOME: DEALERS LIST ===== -->
+<div id="home-section">
+  <div class="hero">
+    <h1 class="display-5 fw-bold">🚗 Car Dealerships</h1>
+    <p class="lead">Find trusted dealerships across the United States</p>
+  </div>
+
+  <div class="bg-white py-3 px-4 border-bottom d-flex flex-wrap gap-3 align-items-center">
+    <input type="text" id="search-input" class="form-control" style="max-width:280px" placeholder="🔍 Search by name or city..." oninput="filterDealers()"/>
+    <select id="state-filter" class="form-select" style="max-width:200px" onchange="filterByState()">
+      <option value="All">All States</option>
+      <option value="Alabama">Alabama</option><option value="Alaska">Alaska</option>
+      <option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option>
+      <option value="California">California</option><option value="Colorado">Colorado</option>
+      <option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option>
+      <option value="Florida">Florida</option><option value="Georgia">Georgia</option>
+      <option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option>
+      <option value="Illinois">Illinois</option><option value="Indiana">Indiana</option>
+      <option value="Iowa">Iowa</option><option value="Kansas">Kansas</option>
+      <option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option>
+      <option value="Maine">Maine</option><option value="Maryland">Maryland</option>
+      <option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option>
+      <option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option>
+      <option value="Missouri">Missouri</option><option value="Montana">Montana</option>
+      <option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option>
+      <option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option>
+      <option value="New Mexico">New Mexico</option><option value="New York">New York</option>
+      <option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option>
+      <option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option>
+      <option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option>
+      <option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option>
+      <option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option>
+      <option value="Texas">Texas</option><option value="Utah">Utah</option>
+      <option value="Vermont">Vermont</option><option value="Virginia">Virginia</option>
+      <option value="Washington">Washington</option><option value="West Virginia">West Virginia</option>
+      <option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option>
+    </select>
+    <span id="logged-in-indicator" style="display:none" class="text-success fw-semibold small">
+      ✅ Logged in as: <strong id="logged-in-name"></strong>
+    </span>
+  </div>
+
+  <div class="container-fluid px-4 py-4">
+    <div id="dealers-loading" class="spinner"></div>
+    <div id="dealers-grid" class="row g-4" style="display:none"></div>
+    <div id="dealers-empty" class="text-center py-5 text-muted" style="display:none">
+      <div style="font-size:3rem">🔍</div>
+      <h4>No dealers found</h4>
+      <p>Try adjusting your search or state filter</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DEALER DETAIL + REVIEWS ===== -->
+<div id="dealer-detail-section">
+  <div class="hero">
+    <h1 id="dealer-detail-name" class="display-5 fw-bold"></h1>
+    <p id="dealer-detail-location" class="lead"></p>
+  </div>
+  <div class="container py-4" style="max-width:900px">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <button class="btn btn-outline-secondary" onclick="showHome()">← All Dealers</button>
+      <div id="write-review-btn-container"></div>
+    </div>
+    <div id="dealer-info-card" class="card mb-4 p-3"></div>
+    <h4 class="fw-bold mb-3" style="color:var(--primary)">Customer Reviews <span id="review-count" class="badge bg-secondary"></span></h4>
+    <div id="reviews-loading" class="spinner" style="display:none"></div>
+    <div id="reviews-list"></div>
+  </div>
+</div>
+
+<!-- ===== POST REVIEW ===== -->
+<div id="post-review-section">
+  <div class="hero"><h1 class="display-5 fw-bold">✍️ Post a Review</h1><p id="review-dealer-name" class="lead"></p></div>
+  <div class="container py-4" style="max-width:700px">
+    <button class="btn btn-outline-secondary mb-4" id="back-to-dealer-btn">← Back to Dealer</button>
+    <div class="card p-4">
+      <h4 class="fw-bold mb-3" style="color:var(--primary)">Share Your Experience</h4>
+      <p class="text-muted small mb-4">Posting as: <strong id="posting-as"></strong></p>
+      <div id="review-submitted-msg" class="alert alert-success" style="display:none">
+        ✅ Review submitted! Redirecting...
+      </div>
+      <form id="review-form">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Your Review *</label>
+          <textarea id="review-text" class="form-control" rows="5" placeholder="Share your experience..." required></textarea>
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="purchased-check" onchange="togglePurchaseDate()"/>
+          <label class="form-check-label fw-semibold" for="purchased-check">I purchased a car from this dealership</label>
+        </div>
+        <div class="mb-3" id="purchase-date-group" style="display:none">
+          <label class="form-label fw-semibold">Purchase Date</label>
+          <input type="date" id="purchase-date" class="form-control"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Car Make</label>
+          <select id="car-make-select" class="form-select" onchange="loadCarModels()">
+            <option value="">-- Select Car Make --</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Car Model</label>
+          <select id="car-model-select" class="form-select" disabled>
+            <option value="">-- Select Car Model --</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Car Year</label>
+          <select id="car-year-select" class="form-select">
+            <option>2023</option><option>2022</option><option>2021</option>
+            <option>2020</option><option>2019</option><option>2018</option>
+            <option>2017</option><option>2016</option><option>2015</option>
+          </select>
+        </div>
+        <button type="submit" class="btn w-100 py-3 fw-bold" style="background:var(--primary);color:white">
+          🚀 Submit Review
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">🔑 Login</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div id="login-error" class="alert alert-danger" style="display:none"></div>
+        <div class="mb-3"><label class="form-label">Username</label><input type="text" id="login-username" class="form-control" placeholder="Your username"/></div>
+        <div class="mb-3"><label class="form-label">Password</label><input type="password" id="login-password" class="form-control" placeholder="Your password"/></div>
+        <button class="btn w-100 py-2" style="background:var(--primary);color:white" onclick="doLogin()">Sign In</button>
+        <p class="text-center mt-3 text-muted small">No account? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REGISTER MODAL ===== -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">📝 Create Account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div id="register-error" class="alert alert-danger" style="display:none"></div>
+        <div class="mb-3"><label class="form-label">Username *</label><input type="text" id="reg-username" class="form-control" placeholder="Choose a username"/></div>
+        <div class="mb-3"><label class="form-label">First Name *</label><input type="text" id="reg-firstname" class="form-control" placeholder="First name"/></div>
+        <div class="mb-3"><label class="form-label">Last Name *</label><input type="text" id="reg-lastname" class="form-control" placeholder="Last name"/></div>
+        <div class="mb-3"><label class="form-label">Email *</label><input type="email" id="reg-email" class="form-control" placeholder="your@email.com"/></div>
+        <div class="mb-3"><label class="form-label">Password *</label><input type="password" id="reg-password" class="form-control" placeholder="Create a password"/></div>
+        <button class="btn w-100 py-2" style="background:var(--primary);color:white" onclick="doRegister()">Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p class="mb-0"><strong style="color:white">🚗 Best Cars Dealership</strong> &copy; 2024. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ─── State ───────────────────────────────────────────
+  let allDealers = [];
+  let allCarModels = [];
+  let currentDealerId = null;
+  let isLoggedIn = false;
+  let currentUser = '';
+  let currentFirstName = '';
+
+  // ─── Init ────────────────────────────────────────────
+  window.onload = () => {
+    const u = sessionStorage.getItem('username');
+    if (u) {
+      isLoggedIn = true;
+      currentUser = u;
+      currentFirstName = sessionStorage.getItem('firstname') || u;
+      updateNavAuth();
+    }
+    loadDealers('All');
+  };
+
+  // ─── Auth UI ─────────────────────────────────────────
+  function updateNavAuth() {
+    document.getElementById('nav-login-btn').style.display = isLoggedIn ? 'none' : '';
+    document.getElementById('nav-register-btn').style.display = isLoggedIn ? 'none' : '';
+    document.getElementById('nav-logout-btn').style.display = isLoggedIn ? '' : 'none';
+    document.getElementById('nav-username').style.display = isLoggedIn ? '' : 'none';
+    document.getElementById('display-username').textContent = currentFirstName || currentUser;
+    document.getElementById('logged-in-indicator').style.display = isLoggedIn ? '' : 'none';
+    document.getElementById('logged-in-name').textContent = currentUser;
+  }
+
+  // ─── Login ───────────────────────────────────────────
+  async function doLogin() {
+    const u = document.getElementById('login-username').value;
+    const p = document.getElementById('login-password').value;
+    const err = document.getElementById('login-error');
+    err.style.display = 'none';
+    try {
+      const res = await fetch('/djangoapp/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({userName: u, password: p})
+      });
+      const data = await res.json();
+      if (data.status === 'Authenticated') {
+        isLoggedIn = true; currentUser = data.userName;
+        currentFirstName = data.firstName || data.userName;
+        sessionStorage.setItem('username', currentUser);
+        sessionStorage.setItem('firstname', currentFirstName);
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+        updateNavAuth();
+        renderDealers(allDealers);
+      } else {
+        err.textContent = 'Invalid username or password.';
+        err.style.display = '';
+      }
+    } catch(e) { err.textContent = 'Connection error.'; err.style.display = ''; }
+  }
+
+  // ─── Register ────────────────────────────────────────
+  async function doRegister() {
+    const err = document.getElementById('register-error');
+    err.style.display = 'none';
+    const payload = {
+      userName: document.getElementById('reg-username').value,
+      firstName: document.getElementById('reg-firstname').value,
+      lastName: document.getElementById('reg-lastname').value,
+      email: document.getElementById('reg-email').value,
+      password: document.getElementById('reg-password').value,
+    };
+    try {
+      const res = await fetch('/djangoapp/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.status === 'Authenticated') {
+        isLoggedIn = true; currentUser = data.userName;
+        currentFirstName = data.firstName || data.userName;
+        sessionStorage.setItem('username', currentUser);
+        sessionStorage.setItem('firstname', currentFirstName);
+        bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+        updateNavAuth();
+        renderDealers(allDealers);
+      } else if (data.error === 'Already Registered') {
+        err.textContent = 'Username already taken.'; err.style.display = '';
+      } else {
+        err.textContent = 'Registration failed.'; err.style.display = '';
+      }
+    } catch(e) { err.textContent = 'Connection error.'; err.style.display = ''; }
+  }
+
+  // ─── Logout ──────────────────────────────────────────
+  async function doLogout() {
+    await fetch('/djangoapp/logout', {credentials: 'include'});
+    isLoggedIn = false; currentUser = ''; currentFirstName = '';
+    sessionStorage.clear();
+    updateNavAuth();
+    showHome();
+  }
+
+  // ─── Dealers ─────────────────────────────────────────
+  async function loadDealers(state) {
+    document.getElementById('dealers-loading').style.display = '';
+    document.getElementById('dealers-grid').style.display = 'none';
+    document.getElementById('dealers-empty').style.display = 'none';
+    const url = state === 'All' ? '/djangoapp/get_dealers' : `/djangoapp/get_dealers/${state}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      allDealers = data.dealers || [];
+    } catch(e) { allDealers = []; }
+    document.getElementById('dealers-loading').style.display = 'none';
+    renderDealers(allDealers);
+  }
+
+  function renderDealers(dealers) {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const filtered = dealers.filter(d =>
+      (d.full_name||'').toLowerCase().includes(search) ||
+      (d.city||'').toLowerCase().includes(search)
+    );
+    const grid = document.getElementById('dealers-grid');
+    const empty = document.getElementById('dealers-empty');
+    if (filtered.length === 0) {
+      grid.style.display = 'none'; empty.style.display = '';
+      return;
+    }
+    grid.style.display = '';  empty.style.display = 'none';
+    grid.innerHTML = filtered.map(d => `
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="dealer-card">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="badge-id">ID: ${d.id}</span>
+            <span class="badge-state">${d.st}</span>
+          </div>
+          <h5 class="fw-bold mb-1" style="color:var(--primary)">${d.full_name}</h5>
+          <p class="text-muted small mb-1">📍 ${d.city}, ${d.state}</p>
+          <p class="text-muted small mb-3">${d.address}, ${d.zip}</p>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-sm flex-fill" style="background:var(--primary);color:white" onclick="showDealerDetail(${d.id})">
+              View Reviews
+            </button>
+            ${isLoggedIn ? `<button class="btn btn-sm flex-fill" style="background:var(--accent);color:white" onclick="showPostReview(${d.id}, '${d.full_name}')">
+              Review Dealer
+            </button>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterDealers() { renderDealers(allDealers); }
+
+  function filterByState() {
+    const state = document.getElementById('state-filter').value;
+    loadDealers(state);
+    // Update URL visually
+    history.pushState(null, '', state === 'All' ? '/' : `/?state=${state}`);
+  }
+
+  // ─── Dealer Detail ───────────────────────────────────
+  async function showDealerDetail(id) {
+    currentDealerId = id;
+    show('dealer-detail-section');
+    document.getElementById('reviews-list').innerHTML = '';
+    document.getElementById('reviews-loading').style.display = '';
+
+    try {
+      const [dRes, rRes] = await Promise.all([
+        fetch(`/djangoapp/dealer/${id}`),
+        fetch(`/djangoapp/reviews/dealer/${id}`)
+      ]);
+      const dData = await dRes.json();
+      const rData = await rRes.json();
+      const dealer = dData.dealer || {};
+      const reviews = rData.reviews || [];
+
+      document.getElementById('dealer-detail-name').textContent = dealer.full_name || `Dealer #${id}`;
+      document.getElementById('dealer-detail-location').textContent = `📍 ${dealer.city || ''}, ${dealer.state || ''}  —  ${dealer.address || ''}`;
+
+      document.getElementById('dealer-info-card').innerHTML = `
+        <h5 class="fw-bold mb-3" style="color:var(--primary)">Dealer Information</h5>
+        <div class="row g-2 small">
+          <div class="col-6"><strong>Full Name:</strong> ${dealer.full_name||''}</div>
+          <div class="col-6"><strong>Short Name:</strong> ${dealer.short_name||''}</div>
+          <div class="col-6"><strong>City:</strong> ${dealer.city||''}</div>
+          <div class="col-6"><strong>State:</strong> ${dealer.state||''} (${dealer.st||''})</div>
+          <div class="col-6"><strong>Address:</strong> ${dealer.address||''}</div>
+          <div class="col-6"><strong>Zip:</strong> ${dealer.zip||''}</div>
+        </div>
+      `;
+
+      const btnContainer = document.getElementById('write-review-btn-container');
+      if (isLoggedIn) {
+        btnContainer.innerHTML = `<button class="btn" style="background:var(--accent);color:white" onclick="showPostReview(${id}, '${dealer.full_name||''}')">✍️ Write a Review</button>`;
+      } else {
+        btnContainer.innerHTML = `<span class="text-muted small">Please <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">login</a> to post a review</span>`;
+      }
+
+      document.getElementById('review-count').textContent = reviews.length;
+      document.getElementById('reviews-loading').style.display = 'none';
+
+      if (reviews.length === 0) {
+        document.getElementById('reviews-list').innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <div style="font-size:2.5rem">💬</div>
+            <h5 class="mt-2">No reviews yet</h5>
+            <p>Be the first to review this dealership!</p>
+          </div>`;
+      } else {
+        document.getElementById('reviews-list').innerHTML = reviews.map(r => `
+          <div class="card mb-3 p-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+              <div>
+                <strong style="color:var(--primary)">${r.name||'Anonymous'}</strong>
+                ${r.purchase ? '<span class="badge bg-success ms-2">✅ Verified Purchase</span>' : ''}
+              </div>
+              <span class="sentiment-${r.sentiment||'neutral'}">${{positive:'😊 positive',negative:'😞 negative',neutral:'😐 neutral'}[r.sentiment||'neutral']}</span>
+            </div>
+            <p class="mb-2">"${r.review||''}"</p>
+            ${(r.car_make||r.car_model) ? `<div class="bg-light rounded p-2 small text-muted">🚗 ${r.car_year||''} ${r.car_make||''} ${r.car_model||''}${r.purchase_date ? ' — Purchased: '+r.purchase_date : ''}</div>` : ''}
+          </div>
+        `).join('');
+      }
+    } catch(e) {
+      document.getElementById('reviews-loading').style.display = 'none';
+      document.getElementById('reviews-list').innerHTML = '<div class="alert alert-danger">Error loading data.</div>';
+    }
+  }
+
+  // ─── Post Review ─────────────────────────────────────
+  async function showPostReview(dealerId, dealerName) {
+    currentDealerId = dealerId;
+    show('post-review-section');
+    document.getElementById('review-dealer-name').textContent = dealerName;
+    document.getElementById('posting-as').textContent = currentUser;
+    document.getElementById('review-submitted-msg').style.display = 'none';
+    document.getElementById('review-form').style.display = '';
+    document.getElementById('back-to-dealer-btn').onclick = () => showDealerDetail(dealerId);
+
+    // Load car makes
+    try {
+      const res = await fetch('/djangoapp/get_cars');
+      const data = await res.json();
+      allCarModels = data.CarModels || [];
+      const makes = [...new Set(allCarModels.map(c => c.CarMake))];
+      const makeSelect = document.getElementById('car-make-select');
+      makeSelect.innerHTML = '<option value="">-- Select Car Make --</option>' +
+        makes.map(m => `<option>${m}</option>`).join('');
+    } catch(e) {}
+  }
+
+  function loadCarModels() {
+    const make = document.getElementById('car-make-select').value;
+    const modelSelect = document.getElementById('car-model-select');
+    if (!make) { modelSelect.disabled = true; return; }
+    const models = allCarModels.filter(c => c.CarMake === make);
+    modelSelect.innerHTML = '<option value="">-- Select Model --</option>' +
+      models.map(m => `<option>${m.CarModel}</option>`).join('');
+    modelSelect.disabled = false;
+  }
+
+  function togglePurchaseDate() {
+    const show = document.getElementById('purchased-check').checked;
+    document.getElementById('purchase-date-group').style.display = show ? '' : 'none';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('review-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        dealership: currentDealerId,
+        review: document.getElementById('review-text').value,
+        purchase: document.getElementById('purchased-check').checked,
+        purchase_date: document.getElementById('purchase-date').value,
+        car_make: document.getElementById('car-make-select').value,
+        car_model: document.getElementById('car-model-select').value,
+        car_year: document.getElementById('car-year-select').value,
+        userName: currentUser,
+      };
+      try {
+        const res = await fetch('/djangoapp/add_review', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.status === 200) {
+          document.getElementById('review-submitted-msg').style.display = '';
+          document.getElementById('review-form').style.display = 'none';
+          setTimeout(() => showDealerDetail(currentDealerId), 2000);
+        }
+      } catch(e) { alert('Error submitting review.'); }
+    });
+  });
+
+  // ─── Navigation ──────────────────────────────────────
+  function show(sectionId) {
+    ['home-section','dealer-detail-section','post-review-section'].forEach(id => {
+      document.getElementById(id).style.display = id === sectionId ? '' : 'none';
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function showHome() {
+    show('home-section');
+    history.pushState(null, '', '/');
+  }
+</script>
+</body>
+</html>

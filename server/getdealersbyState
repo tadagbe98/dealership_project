@@ -1,0 +1,3 @@
+$ curl http://localhost:8000/djangoapp/get_dealers/Kansas
+
+{"status": 200, "dealers": [{"address": "123 Main St", "city": "Wichita", "full_name": "Sunshine Toyota", "id": 1, "lat": 37.69, "long": -97.34, "short_name": "Sunshine", "st": "KS", "state": "Kansas", "zip": "67201"}, {"address": "456 Elm Ave", "city": "Topeka", "full_name": "Prairie Ford", "id": 2, "lat": 39.05, "long": -95.68, "short_name": "Prairie", "st": "KS", "state": "Kansas", "zip": "66601"}, {"address": "147 West St", "city": "Overland Park", "full_name": "Bluegrass Hyundai", "id": 7, "lat": 38.98, "long": -94.67, "short_name": "Bluegrass", "st": "KS", "state": "Kansas", "zip": "66204"}]}

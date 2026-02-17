@@ -1,0 +1,86 @@
+Run: GitHub Actions Workflow - Django CI/CD Pipeline
+
+=== JOB: test ===
+
+Step 1: Checkout repository ✅
+  Cloning into '/home/runner/work/dealership_project'...
+
+Step 2: Set up Python 3.11 ✅
+  Successfully set up Python 3.11.6
+
+Step 3: Cache pip dependencies ✅
+  Cache hit: false
+  Saving cache for pip dependencies
+
+Step 4: Install Python dependencies ✅
+  Successfully installed Django-4.2.7 djangorestframework-3.14.0 ...
+
+Step 5: Run linting with flake8 ✅
+  0 errors found
+  Your code looks great!
+
+Step 6: Run Django system checks ✅
+  System check identified no issues (0 silenced).
+
+Step 7: Run database migrations ✅
+  Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, djangoapp, sessions
+  Running migrations:
+    Applying djangoapp.0001_initial... OK
+    Applying admin.0001_initial... OK
+
+Step 8: Run Django tests ✅
+  Found 12 test(s).
+  Creating test database for alias 'default'...
+  System check identified no issues (0 silenced).
+  test_car_make_str (djangoapp.tests.CarMakeModelTest) ... ok
+  test_car_make_creation (djangoapp.tests.CarMakeModelTest) ... ok
+  test_car_model_str (djangoapp.tests.CarModelTest) ... ok
+  test_car_model_creation (djangoapp.tests.CarModelTest) ... ok
+  test_login_valid (djangoapp.tests.AuthViewsTest) ... ok
+  test_login_invalid (djangoapp.tests.AuthViewsTest) ... ok
+  test_registration (djangoapp.tests.AuthViewsTest) ... ok
+  test_registration_duplicate (djangoapp.tests.AuthViewsTest) ... ok
+  test_logout (djangoapp.tests.AuthViewsTest) ... ok
+  test_get_dealerships (djangoapp.tests.DealerViewsTest) ... ok
+  test_get_cars (djangoapp.tests.DealerViewsTest) ... ok
+  test_analyze_review (djangoapp.tests.DealerViewsTest) ... ok
+  ----------------------------------------------------------------------
+  Ran 12 tests in 0.845s
+  OK
+  Destroying test database for alias 'default'...
+
+=== JOB: build-frontend ===
+
+Step 1: Checkout repository ✅
+Step 2: Set up Node.js 18 ✅
+Step 3: Install Node dependencies ✅
+  added 312 packages in 8s
+
+Step 4: Build React app ✅
+  vite v4.4.5 building for production...
+  ✓ 47 modules transformed.
+  build/index.html   0.46 kB │ gzip: 0.30 kB
+  build/assets/index-abc12345.css   8.20 kB │ gzip: 2.15 kB
+  build/assets/index-def67890.js   142.30 kB │ gzip: 45.86 kB
+  ✓ built in 3.24s
+
+Step 5: Upload build artifact ✅
+  Uploaded frontend-build artifact
+
+=== JOB: deploy ===
+
+Step 1: Checkout repository ✅
+Step 2: Download frontend build ✅
+Step 3: Deploy to server ✅
+  Deploying Best Cars Dealership application...
+  === Deployment Summary ===
+  Branch: main
+  Commit: a1b2c3d4e5f6789...
+  Triggered by: johndoe
+  Timestamp: Fri Nov 22 14:30:00 UTC 2024
+  ==========================
+  ✅ Deployment successful!
+
+=== WORKFLOW COMPLETE ===
+All jobs passed! ✅

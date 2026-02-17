@@ -1,0 +1,12 @@
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+requests==2.31.0
+python-dotenv==1.0.0
+gunicorn==21.2.0
+whitenoise==6.6.0
+Pillow==10.1.0
+ibm-watson==8.0.0
+ibm-cloud-sdk-core==3.18.0
+cloudant==2.15.0
+PyJWT==2.8.0

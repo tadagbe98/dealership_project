@@ -1,0 +1,3 @@
+$ curl http://localhost:8000/djangoapp/dealer/1
+
+{"status": 200, "dealer": {"address": "123 Main St", "city": "Wichita", "full_name": "Sunshine Toyota", "id": 1, "lat": 37.69, "long": -97.34, "short_name": "Sunshine", "st": "KS", "state": "Kansas", "zip": "67201"}}

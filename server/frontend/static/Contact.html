@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Best Cars Dealership</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #1a3c6e;
+      --accent: #e63946;
+    }
+    body { font-family: 'Segoe UI', sans-serif; }
+    .navbar { background-color: var(--primary) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #ffd166 !important; }
+    .nav-link.active { color: #ffd166 !important; font-weight: bold; }
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 60%, var(--accent) 100%);
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .contact-card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      padding: 30px;
+      height: 100%;
+      transition: transform 0.3s;
+    }
+    .contact-card:hover { transform: translateY(-5px); }
+    .contact-icon {
+      width: 60px; height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.25rem rgba(26,60,110,0.25);
+    }
+    .btn-primary-custom {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 40px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .btn-primary-custom:hover { background: var(--accent); }
+    .map-img {
+      width: 100%; border-radius: 12px;
+      object-fit: cover; height: 300px;
+    }
+    footer { background: var(--primary); color: #ccc; padding: 30px 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/"><i class="fas fa-car me-2"></i>Best Cars</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/static/About.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/static/Contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Contact Us</h1>
+    <p class="lead mt-3">We'd love to hear from you. Reach out anytime!</p>
+  </div>
+</section>
+
+<!-- Contact Info Cards -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="contact-card text-center">
+          <div class="contact-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
+          <h5 class="fw-bold">Our Address</h5>
+          <p class="text-muted">1234 Auto Plaza Drive<br>Chicago, Illinois 60601<br>United States</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-card text-center">
+          <div class="contact-icon mx-auto"><i class="fas fa-phone"></i></div>
+          <h5 class="fw-bold">Phone Numbers</h5>
+          <p class="text-muted">
+            Main: <a href="tel:+13125550100">+1 (312) 555-0100</a><br>
+            Sales: <a href="tel:+13125550101">+1 (312) 555-0101</a><br>
+            Support: <a href="tel:+13125550102">+1 (312) 555-0102</a>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-card text-center">
+          <div class="contact-icon mx-auto"><i class="fas fa-envelope"></i></div>
+          <h5 class="fw-bold">Email Addresses</h5>
+          <p class="text-muted">
+            General: <a href="mailto:info@bestcars.com">info@bestcars.com</a><br>
+            Sales: <a href="mailto:sales@bestcars.com">sales@bestcars.com</a><br>
+            Support: <a href="mailto:support@bestcars.com">support@bestcars.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hours & Social -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-6">
+        <div class="contact-card">
+          <h5 class="fw-bold mb-3"><i class="fas fa-clock me-2 text-primary"></i>Business Hours</h5>
+          <table class="table table-borderless mb-0">
+            <tr><td class="text-muted">Monday – Friday</td><td class="fw-bold">8:00 AM – 8:00 PM</td></tr>
+            <tr><td class="text-muted">Saturday</td><td class="fw-bold">9:00 AM – 6:00 PM</td></tr>
+            <tr><td class="text-muted">Sunday</td><td class="fw-bold">10:00 AM – 4:00 PM</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="contact-card">
+          <h5 class="fw-bold mb-3"><i class="fas fa-share-alt me-2 text-primary"></i>Follow Us</h5>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f me-1"></i>Facebook</a>
+            <a href="#" class="btn btn-outline-info"><i class="fab fa-twitter me-1"></i>Twitter</a>
+            <a href="#" class="btn btn-outline-danger"><i class="fab fa-instagram me-1"></i>Instagram</a>
+            <a href="#" class="btn btn-outline-primary"><i class="fab fa-linkedin-in me-1"></i>LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="contact-card">
+          <h4 class="fw-bold text-center mb-4">Send Us a Message</h4>
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="John Doe" required/>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="john@example.com" required/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-control" placeholder="How can we help?" required/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" rows="5" placeholder="Your message..." required></textarea>
+              </div>
+              <div class="col-12 text-center">
+                <button type="submit" class="btn-primary-custom">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container text-center">
+    <p class="mb-1"><i class="fas fa-car me-2"></i><strong class="text-white">Best Cars Dealership</strong></p>
+    <p class="small mb-0">&copy; 2024 Best Cars Dealership. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

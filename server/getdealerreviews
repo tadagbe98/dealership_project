@@ -1,0 +1,3 @@
+$ curl http://localhost:8000/djangoapp/reviews/dealer/1
+
+{"status": 200, "reviews": [{"dealership": 1, "name": "John Smith", "purchase": true, "review": "Fantastic services and very friendly staff!", "purchase_date": "2023-10-15", "car_make": "Toyota", "car_model": "Camry", "car_year": 2023, "sentiment": "positive", "id": "r1"}, {"dealership": 1, "name": "Jane Doe", "purchase": false, "review": "Great experience overall. Would definitely recommend!", "purchase_date": "", "car_make": "Toyota", "car_model": "RAV4", "car_year": 2022, "sentiment": "positive", "id": "r2"}]}
