@@ -116,6 +116,6 @@ CLOUDANT_KEY=your-cloudant-key
 - **Maria Garcia** - Backend Engineer | maria.garcia@bestcars.com
 - **James Smith** - Frontend Developer | james.smith@bestcars.com
 
-## License
-
+## License MIT
+## Author: Tadagbe Landry MASSOLOKONON
 MIT License - Best Cars Dealership 2024
